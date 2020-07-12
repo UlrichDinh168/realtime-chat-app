@@ -19,25 +19,20 @@ const Chat = ({ location }) => {
   const [messages, setMessages] = useState([]);
   const ENDPOINT = 'https://project-chat-application.herokuapp.com/';
 
-  //useEffect runs when components rendered 
-  //queryString returns an obj that contain data
   useEffect(() => {
-    //data = {name, room}
-    const { name, room } = queryString.parse(location.search);//location belongs to react-router
+    const { name, room } = queryString.parse(location.search);
 
-    socket = io(ENDPOINT);//need to pass in an end point as as a string
+    socket = io(ENDPOINT);
 
     setRoom(room);
     setName(name)
-    //emit and io are socket methods.
-    //emit events from client side
-    // below emit passes and event call 'join' and an value obj {name, room}
+
     socket.emit('join', { name, room }, (error) => {
       if(error) {
         alert(error);
       }
     });
-  }, [ENDPOINT, location.search]);//pass retrieve value
+  }, [ENDPOINT, location.search]);
   
   useEffect(() => {
     socket.on('message', message => {
