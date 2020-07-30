@@ -22,13 +22,13 @@ io.on('connect', (socket) => {
 
     socket.join(user.room);
     //tell the user the welcome to the chat
-    socket.emit('message', { user: 'admin', text: `${user.name}, welcome to room ${user.room}.`});
+    socket.emit('message', { user: 'admin', text: `${user.name}, welcome to room ${user.room}.`}); //link with the 2nd useEffect on ./server/index.js
     //tell everyone else besides that specific user that someone has joined the chat 
     socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined!` });
 
     io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
 
-    callback();
+    callback(); //error handling or any callback needed
   });
 
   socket.on('sendMessage', (message, callback) => {
