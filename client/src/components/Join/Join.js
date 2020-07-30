@@ -26,6 +26,7 @@ const Join = () => {
         </div>
         <Link
           onClick={(e) => (!name || !room ? e.preventDefault() : null)}
+          onKeyPress={e => e.key === 'Enter'}
           to={`/chat?name=${name}&room=${room}`}
         >
           <button className="button mt-20" type="submit">
