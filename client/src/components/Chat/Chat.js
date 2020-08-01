@@ -15,30 +15,34 @@ const Chat = ({ location }) => {
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
   const [users, setUsers] = useState("");
-  const [message, setMessage] = useState("");//each msg
-  const [messages, setMessages] = useState([]);//array of msgs
+  const [message, setMessage] = useState(""); //each msg
+  const [messages, setMessages] = useState([]); //array of msgs
   const ENDPOINT = "https://ulrich-chat-application.herokuapp.com/";
 
   useEffect(() => {
     //location belongs to React Router
     //we can destructure data that comes inside {name,room}
     const { name, room } = queryString.parse(location.search);
+    // console.log(location.search) => ?name=Ulrich&room=room
+    // console.log(name, room) => data in a object form {name:"Ulrich", room:"room"}
     socket = io(ENDPOINT);
 
     setRoom(room);
     setName(name);
-
+    //emit can also be passed in an object ie. {name, room} <= this is object, not destructuring
+    //
     socket.emit("join", { name, room }, (error) => {
       if (error) {
         alert(error);
       }
     });
-    return () => { //cleanup function
+    return () => {
+      //cleanup function, equal to ComponentDidUnmount
       socket.emit("disconnect");
       socket.off();
     };
   }, [ENDPOINT, location.search]); //only if these 2 values change, we need to re-render useEffect
-  
+
   //handling messages
   useEffect(() => {
     socket.on("message", (message) => {
@@ -50,8 +54,8 @@ const Chat = ({ location }) => {
     });
   }, []);
 
-  const sendMessage = (event) => {
-    event.preventDefault();
+  const sendMessage = (e) => {
+    e.preventDefault();
 
     if (message) {
       socket.emit("sendMessage", message, () => setMessage(""));
@@ -64,9 +68,11 @@ const Chat = ({ location }) => {
         <InfoBar room={room} />
         <Messages messages={messages} name={name} />
         <Input
-          message={message}
-          setMessage={setMessage}
-          sendMessage={sendMessage}
+          value={message}
+          onChange={(e) => {
+            setMessage(e.target.value);
+          }}
+          onKeyPress={(e) => (e.key === "Enter" ? sendMessage : null)}
         />
       </div>
       <TextContainer users={users} />

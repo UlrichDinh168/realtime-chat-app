@@ -25,9 +25,10 @@ const Join = () => {
           />
         </div>
         <Link
+          //prevent user did not specify name or room, could lead to break app
           onClick={(e) => (!name || !room ? e.preventDefault() : null)}
-          onKeyPress={e => e.key === 'Enter'}
-          to={`/chat?name=${name}&room=${room}`}
+          onKeyPress={(e) => e.key === "Enter"}
+          to={`/chat?name=${name}&room=${room}`} //set dynamic link (changeable)
         >
           <button className="button mt-20" type="submit">
             Sign In
