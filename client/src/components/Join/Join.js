@@ -30,7 +30,11 @@ const Join = () => {
           onKeyPress={(e) => e.key === "Enter"}
           to={`/chat?name=${name}&room=${room}`} //set dynamic link (changeable)
         >
-          <button className="button mt-20" type="submit">
+          <button
+            className="button mt-20"
+            type="submit"
+            onKeyPress={(e) => e.key === "Enter"}
+          >
             Sign In
           </button>
         </Link>
