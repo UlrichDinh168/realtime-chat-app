@@ -17,7 +17,7 @@ const Chat = ({ location }) => {
   const [users, setUsers] = useState("");
   const [message, setMessage] = useState(""); //each msg
   const [messages, setMessages] = useState([]); //array of msgs
-  const ENDPOINT = "https://ulrich-chat-application.herokuapp.com/";
+  const ENDPOINT = "https://chat-application-ulrich.herokuapp.com/";
 
   // <---- handling join event ----> 
   useEffect(() => {
