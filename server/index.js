@@ -13,21 +13,27 @@ const io = socketio(server);
 
 app.use(cors());
 app.use(router);
+// <== admin: message ==> 
+// <== user:sendMessage ==>
 
 // on is a method with built-in keyword "connection"
 // run when there is a client connection
 io.on("connect", (socket) => {
   socket.on("join", ({ name, room }, callback) => {
+    // callback 49:00
+    //callback immediately trigger after
     const { error, user } = addUser({ id: socket.id, name, room });
 
     if (error) return callback(error);
 
-    socket.join(user.room);
+    socket.join(user.room); //join the user to the room
+
     //tell the user the welcome to the chat
     socket.emit("message", {
       user: "admin",
       text: `${user.name}, welcome to room ${user.room}.`,
     }); //link with the 2nd useEffect on ./server/index.js
+
     //tell everyone else besides that specific user that someone has joined the chat
     socket.broadcast
       .to(user.room)
@@ -42,11 +48,14 @@ io.on("connect", (socket) => {
   });
 
   socket.on("sendMessage", (message, callback) => {
+    
+    //get user that send msg
     const user = getUser(socket.id);
 
+    //specify the room name
     io.to(user.room).emit("message", { user: user.name, text: message });
 
-    callback();
+    callback(); //do sth after the msg was sent
   });
 
   socket.on("disconnect", () => {

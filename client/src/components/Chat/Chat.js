@@ -19,6 +19,7 @@ const Chat = ({ location }) => {
   const [messages, setMessages] = useState([]); //array of msgs
   const ENDPOINT = "https://ulrich-chat-application.herokuapp.com/";
 
+  // <---- handling join event ----> 
   useEffect(() => {
     //location belongs to React Router
     //we can destructure data that comes inside {name,room}
@@ -43,7 +44,7 @@ const Chat = ({ location }) => {
     };
   }, [ENDPOINT, location.search]); //only if these 2 values change, we need to re-render useEffect
 
-  //handling messages
+  //<---- handling messages  ---->
   useEffect(() => {
     socket.on("message", (message) => {
       setMessages((messages) => [...messages, message]);
@@ -52,7 +53,7 @@ const Chat = ({ location }) => {
     socket.on("roomData", ({ users }) => {
       setUsers(users);
     });
-  }, []);
+  }, [messages]);
 
   const sendMessage = (e) => {
     e.preventDefault();
