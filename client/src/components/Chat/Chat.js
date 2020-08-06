@@ -53,7 +53,7 @@ const Chat = ({ location }) => {
     socket.on("roomData", ({ users }) => {
       setUsers(users);
     });
-  }, [messages]);
+  }, []);
 
   const sendMessage = (e) => {
     e.preventDefault(); 
