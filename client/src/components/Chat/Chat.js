@@ -56,7 +56,7 @@ const Chat = ({ location }) => {
   }, [messages]);
 
   const sendMessage = (e) => {
-    e.preventDefault();
+    e.preventDefault(); 
     if (message) {
       socket.emit("sendMessage", message, () => setMessage(""));
     }
@@ -68,11 +68,9 @@ const Chat = ({ location }) => {
         <InfoBar room={room} />
         <Messages messages={messages} name={name} />
         <Input
-          value={message}
-          onChange={(e) => {
-            setMessage(e.target.value);
-          }}
-          onKeyPress={(e) => (e.key === "Enter" ? sendMessage : null)}
+          message={message}
+          setMessage={setMessage}
+          sendMessage={sendMessage}
         />
       </div>
       <TextContainer users={users} />

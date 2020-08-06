@@ -21,6 +21,8 @@ const Join = () => {
             type="text"
             placeholder="Room.."
             className="joinInput mt-20"
+            onKeyPress={(e) => e.key === "Enter"}
+            to={`/chat?name=${name}&room=${room}`}
             onChange={(e) => setRoom(e.target.value)}
           />
         </div>
